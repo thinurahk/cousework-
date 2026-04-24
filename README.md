@@ -1,12 +1,71 @@
-# Smart Campus Sensor & Room Management API
+## Smart Campus Sensor & Room Management API
+**5COSC022W Client-Server Architectures — Coursework 2025/26**  
+**University of Westminster**
 
-## API Design Overview
-This project provides a robust RESTful API built on JAX-RS (Jersey) to manage a "Smart Campus" infrastructure. The API handles two main entities: `Rooms` and `Sensors`, managing their physical relationships and history logs out of a singleton in-memory `DataStore`. 
+**Name:** Thinura Uthsara  
+**ID:** 20241044/w2121288  
+
+---
+
+## Overview
+The Smart Campus project is a robust, scalable, and highly available RESTful API designed to manage rooms and diverse arrays of sensors (e.g., CO2 monitors, occupancy trackers, smart lighting controllers) across the university campus. Built using Java and JAX-RS (Jakarta RESTful Web Services) with Jersey, the API adheres to strict RESTful architectural patterns. It features deep resource nesting using sub-resource locators, secure error handling with global exception mappers (to prevent stack trace leaks), and comprehensive logging.
 
 Key design elements include:
 - **Stateless interactions**: Following core RESTful specifications via standard HTTP methods (GET, POST, DELETE).
 - **Sub-Resource Locators**: Abstracting complex nesting (e.g., `/sensors/{id}/readings`) into their own controller boundaries (`SensorReadingResource`).
 - **Comprehensive Error Handling**: Explicit Exception Mapping handling business constraints (returning proper HTTP 403, 409, 422, and 500 error boundaries without leaking software stack traces).
+
+ ---
+
+## Project Structure
+```text
+SmartCampus/
+├── pom.xml
+├── README.md
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com/
+│       │       └── mycompany/
+│       │           └── smartcampus/
+│       │               ├── database/
+│       │               │   └── DataStore.java
+│       │               ├── exception/
+│       │               │   ├── GlobalExceptionMapper.java
+│       │               │   ├── LinkedResourceNotFoundException.java
+│       │               │   ├── LinkedResourceNotFoundExceptionMapper.java
+│       │               │   ├── RoomNotEmptyException.java
+│       │               │   ├── RoomNotEmptyExceptionMapper.java
+│       │               │   ├── SensorUnavailableException.java
+│       │               │   └── SensorUnavailableExceptionMapper.java
+│       │               ├── filter/
+│       │               │   └── ApiLoggingFilter.java
+│       │               ├── model/
+│       │               │   ├── ErrorResponse.java
+│       │               │   ├── Room.java
+│       │               │   ├── Sensor.java
+│       │               │   └── SensorReading.java
+│       │               ├── resources/
+│       │               │   ├── DiscoveryResource.java
+│       │               │   ├── SensorReadingResource.java
+│       │               │   ├── SensorResource.java
+│       │               │   └── SensorRoomResource.java
+│       │               ├── MyApplication.java
+│       │               └── JAXRSConfiguration.java
+│       ├── resources/
+│       │   └── META-INF/
+│       │       └── persistence.xml
+│       └── webapp/
+│           ├── META-INF/
+│           │   └── context.xml
+│           ├── WEB-INF/
+│           │   ├── beans.xml
+│           │   └── web.xml
+│           └── index.html
+└── nb-configuration.xml
+```
+
+--- 
 
 ## Build & Launch Instructions
 Since this backend leverages the Maven build system and Jakarta EE libraries, it can be launched directly through standard Java IDEs via the servlet container.
